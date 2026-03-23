@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>OGREV STOVARIŠTE - Dalibor Pavić</title>
+    <style>
+        html, body { 
+            max-width: 100%;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            margin: 0; 
+            background-color: #ffffff; 
+            color: #333; 
+            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        #backToTop {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 3000;
+            background-color: #d32f2f;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 12px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        nav { 
+            background: #ffffff; 
+            padding: 8px 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+
+        .nav-left { flex: 1; }
+        .nav-left h1 { margin: 0; font-size: 16px; text-transform: uppercase; color: #1a1a1a; letter-spacing: 0.5px; }
+        .nav-left p { margin: 1px 0 0 0; font-size: 12px; color: #444; font-weight: 500; }
+
+        .nav-center { flex: 0; text-align: center; }
+        .logo-top { height: 60px; width: auto; display: block; }
+
+        .nav-right { flex: 1; display: flex; justify-content: flex-end; gap: 15px; }
+        .nav-right a { text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 13px; text-transform: uppercase; }
+
+        #lokacija, #proizvodi, #kontakt { scroll-margin-top: 100px; }
+
+        .hero { 
+            margin-top: 85px; 
+            padding: 20px; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero h2 { font-size: 1.8rem; color: #1a1a1a; margin: 0 0 10px 0; text-transform: uppercase; font-weight: 800; }
+        .hero-logo-box { width: 100%; max-width: 500px; }
+        .hero-logo-box img { width: 100%; height: auto; display: block; }
+        .hero p.anniversary { font-size: 1.2rem; font-weight: bold; color: #d32f2f; margin: 10px 0 0 0; text-transform: uppercase; }
+
+        .section-title { font-size: 2rem; text-transform: uppercase; margin: 30px 0 15px; text-align: center; font-weight: 800; }
+
+        .location-section {
+            padding: 30px 15px;
+            text-align: center;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            background-color: #fdfdfd;
+        }
+
+        .map-container {
+            max-width: 1000px;
+            margin: 15px auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 4px solid #fff;
+            height: 350px;
+        }
+
+        .btn-nav {
+            display: inline-block;
+            margin-top: 15px;
+            background: #4285F4;
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto 40px; padding: 0 15px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        
+        .card { 
+            position: relative;
+            border-radius: 20px; 
+            padding: 50px 20px;
+            text-align: center; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
+            overflow: hidden;
+        }
+
+        .card-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center; z-index: 1;
+        }
+        .card-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.8) 100%);
+            z-index: 2;
+        }
+        .card-content { position: relative; z-index: 3; color: #fff; }
+        .card h3 { font-size: 22px; text-transform: uppercase; margin-bottom: 10px; font-weight: 700; }
+        .price { font-size: 26px; font-weight: bold; margin: 20px 0; }
+        
+        .btn-info { 
+            background: #d32f2f; 
+            color: white; 
+            padding: 12px 30px; 
+            border: none;
+            border-radius: 50px; 
+            font-weight: bold; 
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        .contact-strip {
+            padding: 40px 15px;
+            background-color: #fcfcfc;
+            text-align: center;
+            border-top: 1px solid #eee;
+        }
+
+        .contact-info-box {
+            margin-top: 20px;
+            padding: 25px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            display: inline-block;
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+        }
+
+        .contact-item {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #ddd;
+        }
+
+        .phone-link {
+            font-size: 22px;
+            font-weight: 700;
+            color: #d32f2f;
+            text-decoration: none;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.9);
+        }
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 25px;
+            border-radius: 20px;
+            width: 85%;
+            max-width: 450px;
+            position: relative;
+            text-align: left;
+        }
+        .close-btn { position: absolute; right: 15px; top: 10px; font-size: 30px; cursor: pointer; color: #999; }
+
+        .grid .card:nth-child(1) .card-bg { background-image: url('drva poredjana.jpg'); }
+        .grid .card:nth-child(2) .card-bg { background-image: url('ugalj.jpg'); }
+        .grid .card:nth-child(3) .card-bg { background-image: url('pelet.jfif'); }
+
+        footer { background: #1a1a1a; color: white; text-align: center; padding: 25px 15px; font-size: 12px; }
+
+        @media (max-width: 600px) {
+            .nav-left h1 { font-size: 13px; }
+            .nav-right { gap: 8px; }
+            .nav-right a { font-size: 11px; }
+            .logo-top { height: 45px; }
+            .hero h2 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body id="top">
+
+<button onclick="scrollToTop()" id="backToTop">↑ NA VRH</button>
+
+<nav>
+    <div class="nav-left">
+        <h1>OGREV STOVARIŠTE</h1>
+        <p>Dalibor Pavić</p>
+    </div>
+    <div class="nav-center">
+        <img src="image_1.png" alt="Logo" class="logo-top">
+    </div>
+    <div class="nav-right">
+        <a href="#lokacija">Lokacija</a>
+        <a href="#proizvodi">Ponuda</a>
+        <a href="#kontakt">Kontakt</a>
+    </div>
+</nav>
+
+<div class="hero">
+    <h2>OGREV VRHUNSKOG KVALITETA</h2>
+    <div class="hero-logo-box">
+        <img src="image_0.png" alt="Ogrev Logo">
+    </div>
+    <p class="anniversary">20 godina sa vama</p>
+</div>
+
+<div class="location-section" id="lokacija">
+    <h2 class="section-title">Lokacija</h2>
+    <p>Sveto Polje bb, 15350 Bogatić</p>
+    <div class="map-container">
+        <iframe src="https://www.google.com/maps?q=44.8411357632036,19.514189793821693&hl=es;z=14&output=embed" 
+        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+    <a href="https://www.google.com/maps/dir/?api=1&destination=44.8411357632036,19.514189793821693" target="_blank" class="btn-nav">📍 Navigacija</a>
+</div>
+
+<div class="container" id="proizvodi">
+    <h2 class="section-title">Ponuda</h2>
+    <div class="grid">
+        <div class="card">
+            <div class="card-bg"></div><div class="card-overlay"></div>
+            <div class="card-content">
+                <h3>TVRDO DRVO</h3>
+                <p class="price">9.500 RSD</p>
+                <button class="btn-info" onclick="openModal('drvo')">Pogledaj vrste</button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-bg"></div><div class="card-overlay"></div>
+            <div class="card-content">
+                <h3>UGALJ</h3>
+                <p class="price">18.000 RSD</p>
+                <button class="btn-info" onclick="openModal('ugalj')">Pogledaj vrste</button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-bg"></div><div class="card-overlay"></div>
+            <div class="card-content">
+                <h3>PELET</h3>
+                <p class="price">650 RSD</p>
+                <button class="btn-info" onclick="openModal('pelet')">Pogledaj vrste</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="contact-strip" id="kontakt">
+    <h2 class="section-title">Kontakt</h2>
+    <div class="contact-info-box">
+        <div class="contact-item">
+            <span style="display:block; font-size:14px; color:#666; font-weight:800;">Dalibor Pavić</span>
+            <a href="tel:0642959121" class="phone-link">064 / 29 - 59 - 121</a>
+        </div>
+        <div class="contact-item">
+            <span style="display:block; font-size:14px; color:#666; font-weight:800;">Radovan Pavić</span>
+            <a href="tel:063250559" class="phone-link">063 / 250 - 559</a>
+        </div>
+        <div class="contact-item" style="border:none">
+            <span style="display:block; font-size:14px; color:#666; font-weight:800;">Fiksni</span>
+            <a href="tel:0157786738" class="phone-link">015 / 7786 - 738</a>
+        </div>
+    </div>
+</div>
+
+<div id="infoModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">×</span>
+        <h2 id="modalTitle" style="color:#d32f2f; font-size: 1.5rem; margin-bottom:15px; border-bottom: 2px solid #eee; padding-bottom:10px;"></h2>
+        <div id="modalBody" style="line-height: 1.8; font-size: 16px;"></div>
+    </div>
+</div>
+
+<footer>
+    <p>© 2026 OGREV STOVARIŠTE - Dalibor Pavić</p>
+</footer>
+
+<script>
+    const podaci = {
+        'drvo': { 
+            title: 'Kvalitetno ogrevno drvo', 
+            content: 'Obezbedite toplotu svom domu uz najbolje tvrdo drvo: <br>• <b>Bukva</b> – visoka kalorična vrednost.<br>• <b>Grab</b> – drvo koje najsporije gori.<br>• <b>Cer</b> – idealno za brzo zagrevanje.<br><br>Vršimo uslugu sečenja i cepanja.' 
+        },
+        'ugalj': { 
+            title: 'Dostupne vrste uglja', 
+            content: 'Nudimo širok asortiman uglja za sve tipove peći: <br>• <b>Stanari</b> (Kocka i Komad)<br>• <b>Banović</b> – mrki ugalj visokog kvaliteta.<br>• <b>Đurđevik</b> – dugačka i stabilna toplota.<br>• <b>Sušena Kolubara</b> – ekonomičan izbor.<br>• <b>Kreka Mramor</b> – pouzdano rešenje.' 
+        },
+        'pelet': { 
+            title: 'Premium eko pelet', 
+            content: 'Ekološki čisto gorivo visoke efikasnosti: <br>• <b>U džakovima (15kg)</b> – lako skladištenje.<br>• <b>Na paletu (1.050kg)</b> – najpovoljnija cena.<br><br>Minimalan pepeo i maksimalna toplotna snaga.' 
+        }
+    };
+
+    function openModal(tip) {
+        document.getElementById('modalTitle').innerText = podaci[tip].title;
+        document.getElementById('modalBody').innerHTML = podaci[tip].content;
+        document.getElementById('infoModal').style.display = "block";
+    }
+
+    function closeModal() { document.getElementById('infoModal').style.display = "none"; }
+    window.onclick = function(e) { if (e.target == document.getElementById('infoModal')) closeModal(); }
+
+    window.onscroll = function() {
+        if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+            document.getElementById("backToTop").style.display = "block";
+        } else {
+            document.getElementById("backToTop").style.display = "none";
+        }
+    };
+
+    function scrollToTop() {
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+</script>
+
+</body>
+</html>
